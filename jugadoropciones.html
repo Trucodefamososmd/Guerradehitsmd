@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Elige la cancion - Jugador vs Jugador</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #d400ff, #d85eaf);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: white;
+        }
+        .button {
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+        .button-jugador2 {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Elige la cancion - Jugador vs Jugador</h1>
+    <h2 id="turno">Selecciona tu canción</h2>
+    <div id="opciones"></div>
+    <div id="opcionesJugador2" style="display: none;"></div>
+    <h2 id="resultado"></h2>
+    <div id="botonesPuntaje" style="display: none;">
+        <button class="button" onclick="asignarPunto(1)">Punto para Jugador 1</button>
+        <button class="button" onclick="asignarPunto(2)">Punto para Jugador 2</button>
+        <button class="button" onclick="asignarPunto(0)">Empate</button>
+    </div>
+    <h2>Puntaje:</h2>
+    <h2>Jugador 1: <span id="puntos1">0</span> vs Jugador 2: <span id="puntos2">0</span></h2>
+    <div id="botonesFinales" style="display: none;">
+        <button class="button" onclick="reiniciarJuegoYJugar()">Volver a jugar</button>
+    </div>
+    <button class="button" onclick="volverAlInicio()">Volver al inicio</button>
+    <audio id="audio"></audio>
+    <script>
+        const canciones = [
+        { titulo: "MARIPOSA TECKNICOLOR - FITO PAEZ", archivo: "mariposatecknicolor.mp4", puntaje: 9 },
+            { titulo: "NADA FUE UN ERROR - COTI", archivo: "nadafueunerror.mp4", puntaje: 8 },
+            { titulo: "NO VOY EN TREN - CHARLY GARCIA", archivo: "novoyentren.mp4", puntaje: 8 },
+            { titulo: "POR MIL NOCHES - AIRBAG", archivo: "pormilnoches.mp4", puntaje: 9 },
+            { titulo: "DE MUSICA LIGERA - SODA STEREO", archivo: "demusicaligera.mp4", puntaje: 10 },
+            { titulo: "LOS CAMINOS DE LA VIDA - VICENTICO", archivo: "loscaminosdelavida.mp4", puntaje: 9 },
+            { titulo: "JI JI JI - INDIO", archivo: "jijiji.mp4", puntaje: 8 },
+            { titulo: "WAKA WAKA - SHAKIRA", archivo: "wakawaka.mp4", puntaje: 9 },
+            { titulo: "COLOR ESPERANZA - DIEGO TORRES", archivo: "coloresperanza.mp4", puntaje: 8 },
+            { titulo: "A DIOS LE PIDO - JUANES", archivo: "adioslepido.mp4", puntaje: 8 },
+            { titulo: "LA BICICLETA - CARLOS VIVES", archivo: "labicicleta.mp4", puntaje: 6 },
+            { titulo: "DESPACITO - LUIS FONSI", archivo: "despacito.mp4", puntaje: 8 },
+            { titulo: "PERFECTA - MIRANDA", archivo: "perfecta.mp4", puntaje: 7 },
+            { titulo: "DEJARIA TODO - CHAYANNE", archivo: "lodejaria.mp4", puntaje: 9 },
+            { titulo: "CIUDAD MAGICA - TAN BIONICA", archivo: "ciudadmagica.mp4", puntaje: 7 },
+            { titulo: "CELEBRA LA VIDA - AXEL", archivo: "celebralavida.mp4", puntaje: 7 },
+            { titulo: "LA TRIPLE T - TINI", archivo: "latriplet.mp4", puntaje: 6 },
+            { titulo: "NO ME IMPORTA - LALI", archivo: "nomeimporta.mp4", puntaje: 7 },
+            { titulo: "NO SE VE - EMILIA", archivo: "noseve.mp4", puntaje: 6 },
+            { titulo: "AMOR CLASIFICADO - RODRIGO", archivo: "amorclasificado.mp4", puntaje: 8 },
+            { titulo: "MUJERES - RICARDO ARJONA", archivo: "mujeres.mp4", puntaje: 8 },
+            { titulo: "BESO A BESO - LA MONA GIMENEZ", archivo: "besoabeso.mp4", puntaje: 7 },
+            { titulo: "NUNCA ME FALTES - ANTONIO RIOS", archivo: "nuncamefaltes.mp4", puntaje: 7 },
+            { titulo: "BOMBON ASESINO - LOS PALMERAS", archivo: "bombonasesino.mp4", puntaje: 7 },
+            { titulo: "MENTIROSA - RAFAGA", archivo: "mentirosa.mp4", puntaje: 7 },
+            { titulo: "LA MOROCHA - LUCK RA", archivo: "lamorocha.mp4", puntaje: 6 },
+            { titulo: "SHE DON´T GIVE A FO - DUKI", archivo: "shedontgiveafo.mp4", puntaje: 7 },
+            { titulo: "LA INCONDICIONAL - LUIS MIGUEL", archivo: "laincondicional.mp4", puntaje: 9 },
+            { titulo: "DANCE CRIP - TRUENO", archivo: "dancecrip.mp4", puntaje: 5 },
+            { titulo: "Quevedo: Bzrp Music Sessions, Vol. 52", archivo: "bzrpquevedo.mp4", puntaje: 6 },
+            { titulo: "AYER ME LLAMO MI EX - KHEA", archivo: "ayermellamomiex.mp4", puntaje: 4 },
+            { titulo: "Lgante: Bzrp Music Sessions, Vol.38", archivo: "lgantebzrp.mp4", puntaje: 5 },
+            { titulo: "AUTOMATICO - MARIA BECERRA", archivo: "automatico.mp4", puntaje: 6 },
+            { titulo: "OJOS VERDES - NICKI NICOLE", archivo: "ojosverdes.mp4", puntaje: 5 },
+            { titulo: "VIVIR MI VIDA - MARC ANTHONY", archivo: "vivirmivida.mp4", puntaje: 9 },
+            { titulo: "DANZA KUDURO - DON OMAR", archivo: "danzakuduro.mp4", puntaje: 8 },
+            { titulo: "CORAZON PARTIO - ALEJANDRO SANZ", archivo: "corazonpartio.mp4", puntaje: 8 },
+            { titulo: "AI SE EU TE PEGO - MICHEL TELO", archivo: "nosanosa.mp4", puntaje: 7 },
+            { titulo: "SOU FAVELA - MC BRUNINHO", archivo: "soufavela.mp4", puntaje: 6 },
+            { titulo: "ONDA ONDA - TCHAKABUM", archivo: "ondaonda.mp4", puntaje: 6 },
+            { titulo: "TAN ENAMORADOS - MONTANER", archivo: "tanenamorados.mp4", puntaje: 9 }
+        ];
+        
+        let puntosJugador1 = 0;
+        let puntosJugador2 = 0;
+        let seleccionJugador1 = null;
+        let seleccionJugador2 = null;
+
+        function mostrarOpciones() {
+            const opcionesDiv = document.getElementById("opciones");
+            opcionesDiv.innerHTML = "";
+            canciones.forEach(cancion => {
+                const btn = document.createElement("button");
+                btn.classList.add("button");
+                btn.textContent = cancion.titulo;
+                btn.onclick = () => seleccionarCancionJugador1(cancion);
+                opcionesDiv.appendChild(btn);
+            });
+        }
+        
+        function seleccionarCancionJugador1(cancion) {
+            seleccionJugador1 = cancion;
+            document.getElementById("audio").src = `HITS/${cancion.archivo}`;
+            document.getElementById("audio").play();
+            document.getElementById("turno").textContent = "Jugador 2, selecciona tu canción";
+            document.getElementById("opciones").style.display = "none";
+            mostrarOpcionesJugador2();
+        }
+        
+        function mostrarOpcionesJugador2() {
+            const opcionesDiv = document.getElementById("opcionesJugador2");
+            opcionesDiv.innerHTML = "";
+            opcionesDiv.style.display = "block";
+            canciones.forEach(cancion => {
+                if (cancion.archivo !== seleccionJugador1.archivo) {
+                    const btn = document.createElement("button");
+                    btn.classList.add("button", "button-jugador2");
+                    btn.textContent = cancion.titulo;
+                    btn.onclick = () => seleccionarCancionJugador2(cancion);
+                    opcionesDiv.appendChild(btn);
+                }
+            });
+        }
+        
+        function seleccionarCancionJugador2(cancion) {
+            seleccionJugador2 = cancion;
+            document.getElementById("audio").src = `HITS/${cancion.archivo}`;
+            document.getElementById("audio").play();
+            document.getElementById("turno").textContent = "Definir puntaje";
+            document.getElementById("resultado").textContent = `Jugador 1: ${seleccionJugador1.titulo} vs Jugador 2: ${seleccionJugador2.titulo}`;
+            document.getElementById("opcionesJugador2").style.display = "none";
+            document.getElementById("botonesPuntaje").style.display = "block";
+        }
+        
+        function asignarPunto(ganador) {
+            if (ganador === 1) puntosJugador1++;
+            else if (ganador === 2) puntosJugador2++;
+            document.getElementById("puntos1").textContent = puntosJugador1;
+            document.getElementById("puntos2").textContent = puntosJugador2;
+            document.getElementById("botonesPuntaje").style.display = "none";
+            document.getElementById("botonesFinales").style.display = "block";
+        }
+        
+        function reiniciarJuegoYJugar() {
+            seleccionJugador1 = null;
+            seleccionJugador2 = null;
+            document.getElementById("turno").textContent = "Selecciona tu canción";
+            document.getElementById("resultado").textContent = "";
+            document.getElementById("botonesFinales").style.display = "none";
+            document.getElementById("opciones").style.display = "block";
+            mostrarOpciones();
+        }
+        
+        function volverAlInicio() {
+            window.location.href = 'index.html';
+        }
+        
+        mostrarOpciones();
+    </script>
+</body>
+</html>
