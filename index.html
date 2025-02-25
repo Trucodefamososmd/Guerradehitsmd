@@ -8,20 +8,25 @@
         body {
             background: linear-gradient(to bottom, #d400ff, #d85eaf);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             flex-direction: column;
+            align-items: center;
             text-align: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            padding-top: 20px;
         }
         h1 {
             color: white;
             font-size: 48px;
             font-weight: bold;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
         .button {
             background-color: #009b53;
@@ -36,7 +41,6 @@
             box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
         }
         .button:hover {
-            background-color: #009b53;
             transform: scale(1.05);
         }
         .important-button {
@@ -45,48 +49,17 @@
             color: #333;
             border: 2px solid #DAA520;
         }
-        .important-button:hover {
-            background-color: #FFDF00;
-            transform: scale(1.05);
-        }
         .blue-button {
             background-color: #00d9ff;
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            margin: 15px;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: 8px;
-            transition: 0.3s;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-        }
-        .blue-button:hover {
-            background-color: #00d9ff;
-            transform: scale(1.05);
         }
         .red-button {
             background-color: #FF0000;
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            margin: 15px;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: 8px;
-            transition: 0.3s;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-        }
-        .red-button:hover {
-            background-color: #FF6347;
-            transform: scale(1.05);
         }
         audio {
             display: none;
         }
         .footer {
-            position: absolute;
-            bottom: 20px;
+            margin-top: 30px;
             font-size: 14px;
             color: #fff;
         }
@@ -94,15 +67,17 @@
 </head>
 <body>
     <h1>Guerra de Hits</h1>
-    <button class="button important-button" onclick="location.href='jugadorvsmaquinaautomatico.html'">Elige una de las dos canciones - Jugador vs Máquina Automático</button>
-    <button class="button important-button" onclick="location.href='jugadorvsjugador.html'">Elige una de las dos canciones - Jugador vs Jugador</button>
-    <button class="button important-button" onclick="location.href='jugadorvsmaquinamanual.html'">Elige la cancion - Jugador vs Máquina Manual</button>
-    <button class="button important-button" onclick="location.href='jugadoropciones.html'">Elige la cancion - Jugador vs Jugador</button>
-    <button class="button important-button" onclick="location.href='luzu.html'">Elige la cancion - Jugador vs Jugador - Modo Luzu</button>
-    <button class="button" onclick="location.href='explicacionmodo.html'">Leer Explicación de Cada Modo</button>
-    <button class="blue-button" onclick="document.getElementById('audio').play()">Reproducir Sorpresa</button>
-    <button class="red-button" onclick="location.href='https://www.youtube.com/@luzutv'">Ir a ver LUZU</button>
-    <button class="red-button" onclick="location.href='https://sites.google.com/view/mdguerradehitsmd/inicio?authuser=6'">Volver al inicio</button>
+    <div class="container">
+        <button class="button important-button" onclick="location.href='jugadorvsmaquinaautomatico.html'">Elige una de las dos canciones - Jugador vs Máquina Automático</button>
+        <button class="button important-button" onclick="location.href='jugadorvsjugador.html'">Elige una de las dos canciones - Jugador vs Jugador</button>
+        <button class="button important-button" onclick="location.href='jugadorvsmaquinamanual.html'">Elige la canción - Jugador vs Máquina Manual</button>
+        <button class="button important-button" onclick="location.href='jugadoropciones.html'">Elige la canción - Jugador vs Jugador</button>
+        <button class="button important-button" onclick="location.href='luzu.html'">Elige la canción - Jugador vs Jugador - Modo Luzu</button>
+        <button class="button" onclick="location.href='explicacionmodo.html'">Leer Explicación de Cada Modo</button>
+        <button class="button blue-button" onclick="document.getElementById('audio').play()">Reproducir Sorpresa</button>
+        <button class="button red-button" onclick="location.href='https://www.youtube.com/@luzutv'">Ir a ver LUZU</button>
+        <button class="button red-button" onclick="location.href='https://sites.google.com/view/mdguerradehitsmd/inicio?authuser=6'">Volver al inicio</button>
+    </div>
     <audio id="audio" src="aqncancion.mp4"></audio>
 </body>
 </html>
